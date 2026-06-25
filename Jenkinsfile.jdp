@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+    stages {
+        stage('Pull') {
+            steps {
+                git branch: 'devops', url: 'https://github.com/jambhulkarcloudblitz-alt/CDEC-studentapp.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                echo 'build secesess'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Test secesess'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploy secesess'
+            }
+        }
+    }
+}
