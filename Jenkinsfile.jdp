@@ -8,12 +8,18 @@ pipeline {
         }
         stage('Build') {
             steps {
-                echo 'build secesess'
+                sh '''cd backend
+                    mvn clean package -DskipTests'''
             }
         }
         stage('Test') {
             steps {
-                echo 'Test secesess'
+                sh '''cd backend
+                    mvn sonar:sonar \
+                    -Dsonar.projectKey=student-app \
+                    -Dsonar.projectName='student-app' \
+                    -Dsonar.host.url=http://98.81.111.144:9000 \
+                    -Dsonar.token=sqp_2ee1fff7628102e701b19a2b2c6772070319ffcf'''
             }
         }
         stage('Deploy') {
