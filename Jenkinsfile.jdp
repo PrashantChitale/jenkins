@@ -12,16 +12,33 @@ pipeline {
                     mvn clean package -DskipTests'''
             }
         }
-        stage('Test') {
-            steps {
-                sh '''cd backend
-                    mvn sonar:sonar \
-                    -Dsonar.projectKey=student-app \
-                    -Dsonar.projectName='student-app' \
-                    -Dsonar.host.url=http://98.81.111.144:9000 \
-                    -Dsonar.token=sqp_2ee1fff7628102e701b19a2b2c6772070319ffcf'''
+        // stage('Test') {
+        //     steps {
+        //         sh '''cd backend
+        //             mvn sonar:sonar \
+        //             -Dsonar.projectKey=student-app \
+        //             -Dsonar.projectName='student-app' \
+        //             -Dsonar.host.url=http://98.81.111.144:9000 \
+        //             -Dsonar.token=sqp_2ee1fff7628102e701b19a2b2c6772070319ffcf'''
+        //     }
+        // }
+
+        stage("Test"){
+            steps{
+                withSonarQubeEnv(installationName: 'sonarQube' ,credentialsId: 'sonar-token') {
+                    sh '''cd backend
+                    mvn sonar:sonar -Dsonar.projectKey=student-app'''
+                }
             }
         }
+        stage ('Quality-Gate') {
+            steps {
+                timeout(10) {
+                    waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
+                }
+        }
+        }
+        
         stage('Deploy') {
             steps {
                 echo 'Deploy secesess'
