@@ -33,12 +33,12 @@ pipeline {
         }
         stage ('Quality-Gate') {
             steps {
-                timeout(10) {
+                timeout(3) {
                     waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
                 }
         }
         }
-        
+
         stage('Deploy') {
             steps {
                 echo 'Deploy secesess'
