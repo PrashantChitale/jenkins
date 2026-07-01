@@ -39,9 +39,16 @@ pipeline {
         }
         }
 
+        stage('S3-UPLOD'){
+            steps{
+                sh '''cd backend
+                aws s3 cp target/student-registration-backend-0.0.1-SNAPSHOT.jar s3://prashantchitale.online/student-registration-backend-0.0.1-SNAPSHOT.jar'''
+            }
+        }
+
         stage('Deploy') {
             steps {
-                echo 'Deploy secesess'
+                echo 'Deploy success'
             }
         }
     }
