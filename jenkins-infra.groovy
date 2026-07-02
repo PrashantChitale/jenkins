@@ -37,7 +37,7 @@ pipeline{
         stage("APPROVE"){
             steps{
                 timeout(30) {
-                        input 'Do you want to ${params.ACTION} infrastructure?'
+                        input message: "Do you want to ${params.ACTION} infrastructure?"
                     }
                 
             }
